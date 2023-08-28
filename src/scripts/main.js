@@ -1,36 +1,50 @@
 const htmlPokemonsOl = document.getElementById('pokemons');
+const loadMorePokemonsBtn = document.getElementById('loadMorePokemons');
 
-function convertPokemonToHtmlLi(pokemon) {
-  return `
-    <li class="pokemon">
-          <div class="header">
-            <span>${pokemon.name}</span>
-            <span>#001</span>
-          </div>
+const limit = 5;
+let offset = 0;
 
-          <div>
-            <div class="details">
-              <ol class="types">
-                <li class="type">Grass</li>
-                <li class="type">Poison</li>
-              </ol>
+function loadPokemonItens(offset, limit) {
+  pokeAPI
+    .getPokemons(offset, limit)
+    .then((pokemonList = []) => {
+      htmlPokemonsOl.innerHTML += pokemonList
+        .map(
+          (pokemon) => `
+              <li class="pokemon ${pokemon.primaryType}">
+                    <div class="header">
+                      <span>${pokemon.name}</span>
+                      <span>#${pokemon.number}</span>
+                    </div>
 
-              <img
-                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg"
-                alt="${pokemon.name}"
-              />
-            </div>
-          </div>
-    </li>
-  `;
+                    <div>
+                      <div class="details">
+                        <ol class="types">
+                        ${pokemon.types
+                          .map(
+                            (type) => `<li class="type ${type}">${type}</li>`
+                          )
+                          .join('')}
+                        </ol>
+
+                        <img
+                          src="${pokemon.image}"
+                          alt="Its image for ${pokemon.name}"
+                        />
+                      </div>
+                    </div>
+              </li>
+      `
+        )
+        .join('');
+    })
+    .catch((error) => console.log(error))
+    .finally(() => console.log('Request finish'));
 }
 
-pokeAPI
-  .getPokemons()
-  .then((pokemonList = []) => {
-    htmlPokemonsOl.innerHTML += pokemonList
-      .map(convertPokemonToHtmlLi)
-      .join('');
-  })
-  .catch((error) => console.log(error))
-  .finally(() => console.log('Request finish'));
+loadPokemonItens();
+
+loadMorePokemonsBtn.addEventListener('click', () => {
+  offset += limit;
+  loadPokemonItens(offset, limit);
+});

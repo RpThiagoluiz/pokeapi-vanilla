@@ -25,30 +25,14 @@
     <section class="content">
       <h1>Pokedex</h1>
 
-      <ol class="pokemons" id="pokemons">
-        <li class="pokemon">
-          <div class="header">
-            <span>Bulbasaur</span>
-            <span>#001</span>
-          </div>
+      <ol class="pokemons" id="pokemons"></ol>
 
-          <div>
-            <div class="details">
-              <ol class="types">
-                <li class="type">Grass</li>
-                <li class="type">Poison</li>
-              </ol>
-
-              <img
-                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg"
-                alt="Test"
-              />
-            </div>
-          </div>
-        </li>
-      </ol>
+      <div class="pagination">
+        <button id="loadMorePokemons" type="button">Load More</button>
+      </div>
     </section>
 
+    <script src="/src/scripts/pokemon-model.js"></script>
     <script src="/src/scripts/poke-api.js"></script>
     <script src="/src/scripts/main.js"></script>
   </body>
